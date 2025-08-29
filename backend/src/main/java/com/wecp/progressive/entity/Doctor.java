@@ -1,6 +1,7 @@
 package com.wecp.progressive.entity;
 
 public class Doctor implements Comparable<Doctor>{
+public class Doctor {
 
     private int doctorId;
     private String fullName;
@@ -55,10 +56,11 @@ public class Doctor implements Comparable<Doctor>{
     public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
+
     @Override
     public int compareTo(Doctor that) {
         return Integer.compare(this.yearsOfExperience, that.getYearsOfExperience());
     }
-
+}
     
 }
