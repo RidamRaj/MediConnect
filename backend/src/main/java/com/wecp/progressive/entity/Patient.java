@@ -1,21 +1,19 @@
 package com.wecp.progressive.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
-public class Patient implements Comparable<Patient>{
-
-public class Patient {
-
+public class Patient implements Comparable<Patient> {
     private int patientId;
     private String fullName;
     private Date dateOfBirth;
     private String contactNumber;
     private String email;
     private String address;
+
     public Patient() {
     }
-    public Patient(int patientId, String fullName, Date dateOfBirth, String contactNumber, String email,
-            String address) {
+
+    public Patient(int patientId, String fullName, Date dateOfBirth, String contactNumber, String email, String address) {
         this.patientId = patientId;
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
@@ -23,48 +21,57 @@ public class Patient {
         this.email = email;
         this.address = address;
     }
+
     public int getPatientId() {
         return patientId;
     }
+
     public void setPatientId(int patientId) {
         this.patientId = patientId;
     }
+
     public String getFullName() {
         return fullName;
     }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
+
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
     public String getContactNumber() {
         return contactNumber;
     }
+
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getAddress() {
         return address;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
 
     @Override
-    public int compareTo(Patient that) {
-        return this.fullName.compareTo(that.getFullName());
+    public int compareTo(Patient otherPatient) {
+        return this.getFullName().compareTo(otherPatient.getFullName());
     }
-}
-
-    
 }

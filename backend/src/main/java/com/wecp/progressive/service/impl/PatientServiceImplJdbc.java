@@ -2,10 +2,17 @@ package com.wecp.progressive.service.impl;
 
 import java.util.List;
 
+import com.wecp.progressive.dao.PatientDAO;
 import com.wecp.progressive.entity.Patient;
 import com.wecp.progressive.service.PatientService;
 
 public class PatientServiceImplJdbc implements PatientService  {
+
+    private PatientDAO patientDAO;
+
+    public PatientServiceImplJdbc(PatientDAO patientDAO) {
+         this.patientDAO = patientDAO;
+    }
 
     @Override
     public List<Patient> getAllPatients() {
