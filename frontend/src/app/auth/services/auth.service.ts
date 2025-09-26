@@ -1,29 +1,51 @@
-import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { map, Observable } from "rxjs";
-import { User } from "../../mediconnect/models/User";
+import { Observable } from "rxjs";
+import { environment } from "src/environments/environment";
+import { Injectable } from "@angular/core";
+import { User } from "src/app/mediconnect/models/User";
+import { UserRegistrationDTO } from "src/app/mediconnect/models/UserRegistrationDTO";
 
+@Injectable({
+  providedIn: "root",
+})
 export class AuthService {
+  private loginUrl = `${environment.apiUrl}`;
 
-  constructor(private http: HttpClient) {}
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    })
+  };
+
+  constructor(private http: HttpClient) { }
 
   login(user: Partial<User>): Observable<{ [key: string]: string }> {
-    return new Observable();
+    return this.http.post<{ token: string }>(
+      `${this.loginUrl}/user/login`,
+      user,
+      this.httpOptions
+    );
   }
 
-  getToken() : string {
-    return '';
+  getToken() {
+    return localStorage.getItem("token");
   }
 
-  getRole() : string {
-    return '';
+  getRole() {
+    return localStorage.getItem("role");
   }
 
-  getUsers(): Observable<User[]> {
-    return new Observable();
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('doctor_id');
+    localStorage.removeItem('patient_id');
   }
 
-  createUser(user: User): Observable<User> {
-    return new Observable();
+  createUser(user: UserRegistrationDTO): Observable<any> {
+    return this.http.post<UserRegistrationDTO>(`${this.loginUrl}/user/register`, user);
   }
 }

@@ -1,29 +1,68 @@
 package com.wecp.progressive.controller;
 
 import com.wecp.progressive.entity.Billing;
+import com.wecp.progressive.service.BillingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/billing")
 public class BillingController {
 
+    @Autowired
+    private BillingService billingService;
+
+    @GetMapping
     public ResponseEntity<List<Billing>> getAllBills() {
-        return null;
+        try {
+            List<Billing> bills = billingService.getAllBills();
+            return new ResponseEntity<>(bills, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    public ResponseEntity<Integer> createBill(Billing billing) {
-        return null;
+    @GetMapping("/{billingId}")
+    public ResponseEntity<Billing> getBillById(@PathVariable int billingId) {
+        try {
+            Billing bill = billingService.getBillById(billingId);
+            return new ResponseEntity<>(bill, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    public ResponseEntity<Integer> deleteBill(Billing billing) {
-        return null;
+    @PostMapping
+    public ResponseEntity<Integer> createBill(@RequestBody Billing billing) {
+        try {
+            int billingId = billingService.createBill(billing);
+            return new ResponseEntity<>(billingId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    public ResponseEntity<List<Billing>> getBillsByBillingID(int billingId) {
-        return null;
+    @DeleteMapping("/{billingId}")
+    public ResponseEntity<Void> deleteBill(@PathVariable int billingId) {
+        try {
+            billingService.deleteBill(billingId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    public ResponseEntity<List<Billing>> getBillsByPatient(int patientId) {
-        return null;
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<List<Billing>> getBillsByPatientId(@PathVariable int patientId) {
+        try {
+            List<Billing> bills = billingService.getBillsByPatientId(patientId);
+            return new ResponseEntity<>(bills, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
